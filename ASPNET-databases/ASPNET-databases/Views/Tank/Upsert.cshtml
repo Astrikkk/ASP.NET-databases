@@ -1,0 +1,99 @@
+﻿@model TankFormModel;
+@{
+    bool isCreate = ViewBag.Creation ?? false;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@(isCreate ? "Create" : "Edit") Tank</title>
+    <style>
+        body {
+            background-image: url('https://th.bing.com/th/id/OIP.WfnWiWLljsCqLZkPI0e8rwHaD5?rs=1&pid=ImgDetMain');
+            background-size: cover;
+            color: white;
+        }
+
+        .form-check-label, .form-label {
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+
+                <h2>@(isCreate ? "Create" : "Edit") Tank</h2>
+
+                <form class="row g-3" asp-action="@(isCreate ? "Create" : "Edit")" method="post">
+                    <div class="col-md-12">
+                        <label asp-for="Name" class="form-label">Name</label>
+                        <input asp-for="Name" type="text" class="form-control" placeholder="Enter product name">
+                        <span asp-validation-for="Name" class="small text-danger"></span>
+                    </div>
+                    <div class="col-md-3">
+                        <label asp-for=Quantity class="form-label">Quantity</label>
+                        <div class="input-group">
+                            <span class="input-group-text">pcs</span>
+                            <input asp-for=Quantity type="number" min="0" class="form-control" placeholder="Enter product quantity">
+                        </div>
+                        <span asp-validation-for=Quantity class="small text-danger"></span>
+                    </div>
+                    <div class="col-md-8">
+                        <label asp-for="Price" class="form-label">Price</label>
+                        <div class="input-group">
+                            <span class="input-group-text">$</span>
+                            <input asp-for="Price" type="number" min="0" class="form-control" placeholder="Enter product price">
+                        </div>
+                        <span asp-validation-for="Price" class="small text-danger"></span>
+                    </div>
+                    <div class="col-md-4">
+                        <label asp-for="Mileage" class="form-label">Mileage</label>
+                        <div class="input-group">
+                            <span class="input-group-text">km</span>
+                            <input asp-for="Mileage" type="number" min="0" class="form-control" placeholder="Enter product mileage">
+                        </div>
+                        <span asp-validation-for="Mileage" class="small text-danger"></span>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label asp-for="ClassId" class="form-label">Class</label>
+                        <select asp-for="ClassId" asp-items="ViewBag.Categories" id="inputState" class="form-select">
+                            <option selected>Choose...</option>
+                        </select>
+                        <span asp-validation-for="ClassId" class="small text-danger"></span>
+                    </div>
+                    <div class="col-md-8">
+                        <label asp-for="ImageUrl" class="form-label">Image URL</label>
+                        <input asp-for="ImageUrl" type="url" class="form-control" placeholder="Enter product image address" id="inputEmail4">
+                        <span asp-validation-for="ImageUrl" class="small text-danger"></span>
+                    </div>
+
+                    <div class="col-md-12 mb-3">
+                        <label asp-for="Description" class="form-label">Description</label>
+                        <textarea asp-for="Description" class="form-control" id="exampleFormControlTextarea1" placeholder="Enter product description" rows="3"></textarea>
+                        <span asp-validation-for="Description" class="small text-danger"></span>
+                    </div>
+
+                    <div class="col-6">
+                        <a asp-action="Index" class="btn btn-dark w-100">Go Back</a>
+                    </div>
+                    <div class="col-6">
+                        @if (isCreate)
+                        {
+                            <button type="submit" class="btn btn-success w-100">Create</button>
+                        }
+                        else
+                        {
+                            <button type="submit" class="btn btn-warning w-100">Edit</button>
+                        }
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

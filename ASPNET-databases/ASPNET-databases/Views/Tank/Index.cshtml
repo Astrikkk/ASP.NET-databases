@@ -1,0 +1,102 @@
+﻿@model List<Tank>;
+
+<style>
+    body {
+        background-image: url('https://th.bing.com/th/id/R.3c244290bd3006efaf98665f6ffa47e4?rik=xzfTMDbz0mL22Q&pid=ImgRaw&r=0');
+        background-size: cover;
+        color: white;
+    }
+
+    .table {
+        background-color: rgba(0, 0, 0, 0.5);
+        color: white;
+    }
+
+    .btn {
+        color: white;
+    }
+</style>
+
+<h1>Tank Panel</h1>
+<p>Here you can manage all the available tanks.</p>
+
+<div class="d-flex gap-2">
+    <a asp-controller="Tank" asp-action="Create" class="btn btn-primary">Create New Tank</a>
+
+    <form class="d-flex ms-auto gap-2" asp-action="Filter" ms-auto>
+
+        <select name="categoryId" asp-items=ViewBag.Categories id="inputState" class="form-select">
+            <option selected>All Categories</option>
+        </select>
+
+        <button type="submit" class="btn btn-secondary">Filter</button>
+    </form>
+</div>
+
+<table id="product-table" class="table table-hover">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col"></th>
+            <th scope="col">Name</th>
+            <th scope="col">Price</th>
+            <th scope="col">Mileage</th>
+            <th scope="col">Category</th>
+            <th scope="col">Quantity</th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var i in Model)
+        {
+            <tr class="align-middle">
+                <th scope="row">@i.Id</th>
+                <td>
+                    <img height="45" src="@i.ImageUrl" alt="Product Image" />
+                </td>
+                <td>
+                    @i.Name
+                </td>
+                <td>
+                    @(i.Price)$
+                </td>
+                <td>
+                    @(i.Mileage)km
+                    @if (i.Mileage < 100000)
+                    {
+                        <span class="badge bg-success">Brand new</span>
+                    }
+                </td>
+                <td>@(i.Class?.Name ?? "UnKnownClass")</td>
+                <td>
+                    @if (i.Quantity > 0)
+                    {
+                        <span class="badge bg-success">@i.Quantity</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-secondary">Not in stock</span>
+                    }
+                </td>
+                <td>
+                    <div class="btn-group" role="group" aria-label="Basic example">
+                        <button type="button" class="btn btn-secondary">
+                            <i class="bi bi-info-circle-fill"></i>
+                            <span>Info</span>
+                        </button>
+                        <a asp-action="Edit" asp-route-id="@i.Id" type="button" class="btn btn-warning">
+                            <i class="bi bi-pencil-fill"></i>
+                            <span>Edit</span>
+                        </a>
+                        <a asp-action="Delete" asp-route-id="@i.Id" class="btn btn-danger">
+                            <i class="bi bi-trash-fill"></i>
+                            <span>Delete</span>
+                        </a>
+                    </div>
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<p>Count: @Model.Count</p>
